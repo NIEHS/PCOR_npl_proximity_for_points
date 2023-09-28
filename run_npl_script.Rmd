@@ -1,0 +1,93 @@
+## Run version 2.0
+
+### Invoke an r script with mutiple sub r script files each file handle one task
+
+### All steps in a big file
+
+### script_npl_proximity_for_points_V2.R
+
+```{r}
+
+# Download national priorities list data for new tool (EPA Superfund sites in 2014 via CIESIN (URL): 
+# https://sedac.ciesin.columbia.edu/data/set/superfund-epa-national-priorities-list-ciesin-mod-v2
+
+# Load packages
+library(tidyverse)
+library(logr)
+library(sf)
+
+# Load functions
+source("./script_npl_proximity_for_points_V2.R")
+source("./functions/npl_proximity_points_logging.R")
+source("./functions/npl_proximity_points_input_validation.R")
+source("./functions/check_point_receptor_format.R")
+source("./functions/npl_proximity_points_transform_calculate.R")
+source("./functions/npl_check_point_receptor_format.R")
+source("./functions/check_point_receptor_near_border.R")
+source("./functions/nearest_distance_to_point_source_for_point_receptor.R")
+source("./functions/npl_proximity_points_summary_metrics.R")
+source("./functions/summary_of_point_sources_in_buffer_of_point_receptor.R")
+#Parameters:
+    # NPL_STATUS for filter the input data if NULL then no data filter
+    # p_NPL_STATUS has three status 
+    # ["Proposed for NPL" "Currently on the Final NPL" "Deleted from the Final NPL"]
+npl_proximity_metrics_v2 <- 
+  get_npl_facility_proximity_for_points_V2(
+    receptor_filepath = "./input/input_receptor.csv", 
+    source_npl_facilities_filepath ="./input/epa-national-priorities-list-ciesin-mod-v2-2014.xls",
+    us_borders_filepath ="./input/input_us_borders.rds",
+    p_NPL_STATUS = 'Deleted from the Final NPL',
+    npl_year = '2017-10-01',
+    start_year = 1985,
+    end_year = 2020
+    )
+
+# Write exposures to CSV
+readr::write_csv(npl_proximity_metrics_v2, 
+                 file ="./output/output_npl_proximity_metrics_V2.csv")
+
+
+```
+
+## Run version v1.0
+
+### Invoke an r script with input parameters
+
+### All steps in a big file
+
+### script_npl_proximity_for_points.R
+
+```{r}
+# Download national priorities list data for new tool (EPA Superfund sites in 2014 via CIESIN (URL): 
+# https://sedac.ciesin.columbia.edu/data/set/superfund-epa-national-priorities-list-ciesin-mod-v2
+
+# Load packages
+library(tidyverse)
+library(logr)
+library(sf)
+
+# Load functions
+source("./script_npl_proximity_for_points.R")
+
+# Get exposures
+npl_proximity_metrics <- 
+  get_npl_facility_proximity_for_points(
+    receptor_filepath = "./input/input_receptor.csv", 
+    #npl_points_list <- read_excel("epa-national-priorities-list-ciesin-mod-v2-2014.xls", sheet = "EPA_NPL_Sites_asof_27Feb2014")
+    source_aircraft_facilities_filepath ="./input/epa-national-priorities-list-ciesin-mod-v2-2014.xls",
+    us_borders_filepath ="./input/input_us_borders.rds",
+    # NPL_STATUS for filter the input data if NULL then no data filter
+    #1. "Proposed for NPL" 
+    #2. "Currently on the Final NPL" 
+    #3. "Deleted from the Final NPL"
+    NPL_STATUS = 'Deleted from the Final NPL', 
+    npl_year = '2017-10-01',
+    start_year = 1985,
+    end_year = 2020
+    )
+
+# Write exposures to CSV
+readr::write_csv(npl_proximity_metrics, 
+                 file ="./output/output_npl_proximity_metrics_v1.csv")
+
+```

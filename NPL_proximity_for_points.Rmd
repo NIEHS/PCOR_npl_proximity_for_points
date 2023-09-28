@@ -1,0 +1,125 @@
+###########
+Explore the input file 
+###########
+```{R}
+
+aircraft_list <- readRDS("input_source_aircraft_facilities.rds")
+
+```
+dataset shap
+```{r}
+colnames(aircraft_list)
+head(aircraft_list)
+
+```
+input_receptor:
+```{R}
+input<-read.csv('input_receptor.csv')
+head(input)
+```
+npl dataset
+```{r}
+# Load the readxl package
+library(readxl)
+
+# Read a specific sheet by its name
+npl_points_list <- read_excel("epa-national-priorities-list-ciesin-mod-v2-2014.xls", sheet = "EPA_NPL_Sites_asof_27Feb2014")
+colnames(npl_points_list)
+head(npl_points_list)
+#"EPA_SITEID"       "SITE_NAME"        "ADDRESS"          "CITY"             "COUNTY"           "STATE"           
+#[7] "ZIP_CODE"         "REGION"           "NPL_STATUS"       "NPL_STATUS_DATE"  "LATITUDE"         "LONGITUDE"       
+#[13] "NOTES"            "SITE_PROFILE_URL" "FEDERAL_STATUS"   "LAST_UPDATED"  
+unique_NPL_STATUS <- unique(npl_points_list$NPL_STATUS)
+print(unique_NPL_STATUS)
+#"Proposed for NPL" "Currently on the Final NPL" "Deleted from the Final NPL"
+#1. Should we remove NPL status='Deleted from the Final NPL'
+dim(npl_points_list)
+activate_npl_points_list <- npl_points_list[npl_points_list$NPL_STATUS != "Deleted from the Final NPL", ]
+dim(activate_npl_points_list)
+
+#2. Should we filter out NPL_STATUS_DATE
+dim(npl_points_list)
+by_year_npl_points_list <- npl_points_list[npl_points_list$NPL_STATUS_DATE > as.POSIXct("1990-05-27"), ]
+dim(by_year_npl_points_list)
+
+```
+```{r}
+library(sf)
+# Convert to sf object with POINT geometry
+sf_object <- st_as_sf(activate_npl_points_list, coords = c("LONGITUDE","LATITUDE"), crs = 4326)
+# Convert sf object back to data frame and add geometry column
+df_with_geometry <- as.data.frame(sf_object)
+df_with_geometry$geometry <- st_as_text(sf_object$geometry)
+
+
+```
+```{r}
+
+head (df_with_geometry)
+```
+
+## NPL has no type so we remove this check point
+#aircraft_facility_type = c("airport", "heliport", "seaplane base",
+#                                      "gliderport", "ultralight", "balloonport"),
+```{R}
+# aircraft_facility_type = c("airport", "heliport", "seaplane base","gliderport", "ultralight", "balloonport"),
+                                      
+```
+output file:
+```{R}
+library(dplyr)
+output <- read.csv("output_aircraft_proximity_metrics_sue.csv")
+dim(output)
+head(output)
+pm25_data<-output %>%filter(is.na(aircraft_p25_distance_in_buffer))
+#pm25_data<-output %>%filter(is.na(city))
+dim(pm25_data)
+head(pm25_data)
+```
+
+```{r}
+#id_site_num id_loc      fac_type year_activation                 geometry
+isValidDate <- function(date_str) {
+  !is.na(as.Date(date_str, format = "%Y-%m-%d"))
+}
+isValidDate("1990-02-30")
+isValidDate("2000/05/30")
+npl_year="2019-01-01"
+#!is.na(as.Date("2019-01-01", format = "%Y-%m-%d"))
+!is.na(as.Date(npl_year, format = "%Y-%m-%d"))
+date_obj <- as.Date("90-05-27", format = "%y-%m-%d")
+year_number <- year(date_obj)
+
+```
+
+
+```{r}
+require(stats)
+centre <- function(x, type) {
+  switch(type,
+         mean = mean(x),
+         median = median(x),
+         trimmed = mean(x, trim = .1))
+}
+x <- rcauchy(10)
+x <- 10
+print(x)
+centre(x, "mean")
+centre(x, "median")
+centre(x, "trimmed")
+
+print(mean(10))
+
+```
+
+check out put from the metrics
+```{r}
+ before <- read.csv("./output_npl_proximity_metrics-2.csv")
+after <- read.csv("./output/v2output_npl_proximity_metrics.csv")
+nnn <- read_csv("./output_npl_proximity_metrics-2.csv")
+dim(before)
+dim(after)
+dim(nnn)
+colnames(before)
+colnames(after)
+```
