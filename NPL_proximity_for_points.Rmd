@@ -1,31 +1,38 @@
-###########
-Explore the input file 
-###########
+########### 
+
+Explore the input file \###########
+
 ```{R}
 
 aircraft_list <- readRDS("input_source_aircraft_facilities.rds")
 
 ```
+
 dataset shap
+
 ```{r}
 colnames(aircraft_list)
 head(aircraft_list)
 
 ```
+
 input_receptor:
+
 ```{R}
-input<-read.csv('input_receptor.csv')
+input<-read.csv('./input/input_receptor.csv')
 head(input)
 ```
+
 npl dataset
+
 ```{r}
 # Load the readxl package
 library(readxl)
 
 # Read a specific sheet by its name
-npl_points_list <- read_excel("epa-national-priorities-list-ciesin-mod-v2-2014.xls", sheet = "EPA_NPL_Sites_asof_27Feb2014")
+npl_points_list <- read_excel("./input/epa-national-priorities-list-ciesin-mod-v2-2014.xls", sheet = "EPA_NPL_Sites_asof_27Feb2014")
 colnames(npl_points_list)
-head(npl_points_list)
+
 #"EPA_SITEID"       "SITE_NAME"        "ADDRESS"          "CITY"             "COUNTY"           "STATE"           
 #[7] "ZIP_CODE"         "REGION"           "NPL_STATUS"       "NPL_STATUS_DATE"  "LATITUDE"         "LONGITUDE"       
 #[13] "NOTES"            "SITE_PROFILE_URL" "FEDERAL_STATUS"   "LAST_UPDATED"  
@@ -43,6 +50,12 @@ by_year_npl_points_list <- npl_points_list[npl_points_list$NPL_STATUS_DATE > as.
 dim(by_year_npl_points_list)
 
 ```
+
+```{r}
+print(head(npl_points_list))
+
+```
+
 ```{r}
 library(sf)
 # Convert to sf object with POINT geometry
@@ -53,19 +66,31 @@ df_with_geometry$geometry <- st_as_text(sf_object$geometry)
 
 
 ```
+
 ```{r}
 
 head (df_with_geometry)
 ```
 
 ## NPL has no type so we remove this check point
-#aircraft_facility_type = c("airport", "heliport", "seaplane base",
-#                                      "gliderport", "ultralight", "balloonport"),
+
+#aircraft_facility_type = c("airport", "heliport", "seaplane base", \# "gliderport", "ultralight", "balloonport"),
+
 ```{R}
 # aircraft_facility_type = c("airport", "heliport", "seaplane base","gliderport", "ultralight", "balloonport"),
                                       
 ```
+
+US border file
+
+```{r}
+ us_borders_sf  <- readr::read_rds("./input/input_us_borders.rds")
+ head(us_borders_sf)
+
+```
+
 output file:
+
 ```{R}
 library(dplyr)
 output <- read.csv("output_aircraft_proximity_metrics_sue.csv")
@@ -92,7 +117,6 @@ year_number <- year(date_obj)
 
 ```
 
-
 ```{r}
 require(stats)
 centre <- function(x, type) {
@@ -113,13 +137,13 @@ print(mean(10))
 ```
 
 check out put from the metrics
+
 ```{r}
- before <- read.csv("./output_npl_proximity_metrics-2.csv")
-after <- read.csv("./output/v2output_npl_proximity_metrics.csv")
-nnn <- read_csv("./output_npl_proximity_metrics-2.csv")
-dim(before)
-dim(after)
+#before <- read.csv("./output/output_npl_proximity_metrics-2.csv")
+#after <- read.csv("./output/output_npl_proximity_metrics_v1.csv")
+nnn <- read.csv("./output/output_npl_proximity_metrics_V2.csv")
+#dim(after)
+#colnames(after)
 dim(nnn)
-colnames(before)
-colnames(after)
+colnames(nnn)
 ```

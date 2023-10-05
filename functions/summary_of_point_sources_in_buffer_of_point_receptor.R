@@ -36,11 +36,7 @@ summary_of_point_sources_in_buffer_of_point_receptor <-
            projection_crs = NULL,
            print_log_to_console = TRUE,
            write_log_to_file = TRUE) {
-    n_col <- ncol(source_sf)
-    n_row <- nrow(source_sf)
-    print ("********Summary *****")
-    print(n_col)
-    print(n_row)
+    
   # Open log -------------------------------------------------------------------
   if(write_log_to_file == TRUE) {
     if(logr::log_status() != "open") {
@@ -133,10 +129,9 @@ summary_of_point_sources_in_buffer_of_point_receptor <-
   # Buffer point receptors by buffer_distance
   receptor_buffer_sf <- sf::st_buffer(receptor_sf, 
                                       dist = buffer_distance)
-  #readr::write_csv(receptor_buffer_sf, file ="./output/zzreceptor_buffer_sf.csv")
   # Get lists of source points in each receptor point buffer
   sources_in_receptor_buffer_ls = sf::st_intersects(receptor_buffer_sf, source_sf)
-  #readr::write_csv(sources_in_receptor_buffer_ls,file ="./output/zzsources_in_receptor_buffer_ls.csv")
+
   # Print status update
   if(write_log_to_file == TRUE) {
     logr::log_print("Identified point sources within buffer distance of point receptors.",

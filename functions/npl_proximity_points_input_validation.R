@@ -22,8 +22,8 @@ npl_proximity_points_input_validation <-
             check_near_us_border = NULL
     
     ){
-    print(receptor_filepath)
-    print(source_npl_facilities_filepath)
+    #print(receptor_filepath)
+    #print(source_npl_facilities_filepath)
     if(is.null(receptor_filepath)) {
       stop("Required argument 'receptor_filepath' is missing.")
     } else if(!file.exists(receptor_filepath)) {
@@ -32,11 +32,7 @@ npl_proximity_points_input_validation <-
               (stringr::str_sub(receptor_filepath, -3, -1) != "CSV")) {
       stop("'receptor_filepath' must be a valid file path for a csv file.")
     }
-     
-    #print("source_npl_facilities_filepath: ", source_npl_facilities_filepath)
-    print("llllllllll")
-    print(source_npl_facilities_filepath)
-    print("kkkkkkkk")
+  
     if(is.null(source_npl_facilities_filepath)) {
       stop("Required argument 'source_npl_facilities_filepath' is missing.")
     } else if(!file.exists(source_npl_facilities_filepath)) {
@@ -103,16 +99,18 @@ check_pointer_receipters <-
             check_near_us_border,
             us_borders_filepath,
             buffer_distance_km,
-            npl_year){
-    print("&&&&&&7777777777")
-    #print("receptor_filepath:",receptor_filepath)
-    print(receptor_filepath)
-    print("888888888")
-    receptor_df <- readr::read_csv(receptor_filepath, show_col_types = FALSE)
+            npl_year,
+            time_option){
     
+    #print("receptor_filepath:",receptor_filepath)
+    #print(receptor_filepath)
+    
+    receptor_df <- readr::read_csv(receptor_filepath, show_col_types = FALSE)
+    print("8888888888888888888888")
+    print(time_option)
     check_point_receptor_format(receptor = receptor_df,
                                 year = year(npl_year),
-                                time_option = "single_year_only",
+                                time_option = time_option,
                                 print_log_to_console = print_log_to_console,
                                 write_log_to_file = write_log_to_file)
     
@@ -150,9 +148,7 @@ check_pointer_receipters <-
       
       output_receptor_border_check_df <- receptor_border_check_df %>%
         dplyr::select(id, within_border_buffer)
-      print("9999**********************************")
-     # print("output_receptor_border_check_df dim: ",dim(output_receptor_border_check_df))
-      print("9990**********************************")
+     
       output_df_list <- list(output_receptor_border_check_df)
     }
     

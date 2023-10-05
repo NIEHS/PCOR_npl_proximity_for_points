@@ -1,6 +1,6 @@
 ## Run version 2.0
 
-### Invoke an r script with mutiple sub r script files each file handle one task
+### Invoke an r script with multiple sub r script files each file handle one task
 
 ### All steps in a big file
 
@@ -36,10 +36,11 @@ npl_proximity_metrics_v2 <-
     receptor_filepath = "./input/input_receptor.csv", 
     source_npl_facilities_filepath ="./input/epa-national-priorities-list-ciesin-mod-v2-2014.xls",
     us_borders_filepath ="./input/input_us_borders.rds",
-    p_NPL_STATUS = 'Deleted from the Final NPL',
+    p_NPL_Status = 'Deleted from the Final NPL',
     npl_year = '2017-10-01',
     start_year = 1985,
-    end_year = 2020
+    end_year = 2020,
+    time_option = 'single_year_only' #'either_single_or_variable_year'#'variable_year_only' 
     )
 
 # Write exposures to CSV

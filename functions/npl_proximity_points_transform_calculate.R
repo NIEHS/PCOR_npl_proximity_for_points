@@ -37,13 +37,13 @@ trainsform_receptor_sf <-
             receptor_crs,
             check_near_us_border
             ){
-    print("llllllll1")               
+                   
     receptor_df <- readr::read_csv(receptor_filepath, show_col_types = FALSE) 
-    print("kkkkkkkkkk2")
+    
     ##########################################################
     #
     #  npl_check_point_receptor_format.R
-    #  Function validate input file receptor and log the information
+    #  Function validate input file receptor start/end year and npl_year and log the information
     #  Detail see file npl_check_point_receptor_format.R
     ##########################################################
     npl_check_point_receptor_format(receptor = receptor_df, 
@@ -53,7 +53,7 @@ trainsform_receptor_sf <-
                                 time_option = "single_year_only",
                                 print_log_to_console = print_log_to_console, 
                                 write_log_to_file = write_log_to_file)
-    
+    print('npl_check_point_receptor_format need refactory')
     receptor_sf <- sf::st_as_sf(receptor_df, coords = c('longitude','latitude'), 
                                 crs = receptor_crs)
     return(receptor_sf)
@@ -112,7 +112,7 @@ check_us_border <-
 ##############################################
 transform_filter_npl_source_points <- 
   function (source_npl_facilities_filepath,
-            p_NPL_STATUS,
+            p_NPL_Status,
             print_log_to_console,
             projection_crs,
             receptor_sf
@@ -127,16 +127,15 @@ transform_filter_npl_source_points <-
     # if ((nrow(source_aircraft_sf) != 1747) & (ncol(source_aircraft_sf != 16)) ){
     #   stop("Input EPA dataset with 1747 rows and 16 columns.")
     # }
-    #filter out NPL_STATUS
-    if(is.null(p_NPL_STATUS)){
-      logr::put(stringr::str_c("No NPL_STATUS to filter out the dataset."),
+    #filter by p_NPL_Status
+    if(is.null(p_NPL_Status)){
+      logr::put(stringr::str_c("No NPL_Status to filter out the dataset."),
                 console = print_log_to_console)
     }else {
       #dataset filter by NPL_STATUS
-      source_npl_sf_status <- source_npl_sf[source_npl_sf$NPL_STATUS != p_NPL_STATUS, ]
-      #activate_npl_points_list <- npl_points_list[npl_points_list$NPL_STATUS != "Deleted from the Final NPL", ]
+      source_npl_sf_status <- source_npl_sf[source_npl_sf$NPL_STATUS != p_NPL_Status, ]
       
-      logr::put(stringr::str_c("NPL_dataset filter by NPL_STATUS :", p_NPL_STATUS))
+      logr::put(stringr::str_c("NPL_dataset filter by NPL_STATUS :", p_NPL_Status))
       #resign the value to source_npl_status
       source_npl_sf <- source_npl_sf_status
     }

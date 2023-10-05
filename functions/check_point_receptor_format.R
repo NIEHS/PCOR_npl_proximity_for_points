@@ -18,7 +18,6 @@ check_point_receptor_format <- function(receptor = NULL,
                                         write_log_to_file = TRUE) {
   
   # Open log -------------------------------------------------------------------
-  
   if(write_log_to_file == TRUE) {
     if(logr::log_status() != "open") {
       logr::log_open(show_notes = FALSE)
@@ -81,7 +80,7 @@ check_point_receptor_format <- function(receptor = NULL,
       stop("Required argument for year for exposure assessment must be in numeric format.")
     } 
     else if((year < 1800) | (year > 2100)) {
-      stop("Required argument for year for exposure assessment must have 4-digit 'YYYY' format.")
+      stop("Required argument for year for exposure assessment must in the range 1800 to 2100. (need update)")
     }
     if(write_log_to_file == TRUE) {
       logr::log_print(stringr::str_c('Year for exposure assessment set to ', 
@@ -90,10 +89,38 @@ check_point_receptor_format <- function(receptor = NULL,
     } else if(print_log_to_console == TRUE) {
       message(stringr::str_c('Year for exposure assessment set to ', year, '.', sep = ""))
     }
-  }
+  } 
   
   # Check time information when time_option = "variable_year_only" 
   else if(time_option == "variable_year_only") {
+   
+    if(("time_start" %in% colnames(receptor) == FALSE) | 
+       ("time_end" %in% colnames(receptor) == FALSE)) {
+      stop("Point receptor data frame required columns missing: 'time_start' and/or 'time_end'.")
+    } else if((!is.numeric(receptor$time_start)) | (!is.numeric(receptor$time_end))) {
+      stop("Point receptor data frame required columns 'time_start' and 'time_end' must be in numeric format.")
+    } else if((min(receptor$time_start) < 1800) | (max(receptor$time_start) > 2100) |
+              (min(receptor$time_end) < 1800) | (max(receptor$time_end) > 2100)) {
+      stop("Point receptor data frame required columns 'time_start' and 'time_end' must have 4-digit 'YYYY' format.")
+    } else {
+      test_time_range <- receptor %>%
+        dplyr::mutate(end_before_start = dplyr::if_else(time_start > time_end, 1, 0))
+      if(sum(test_time_range$end_before_start) > 0) {
+        stop("Year in 'time_start' must be less than or equal to year in 'time_end' for all point receptors.")
+      }
+    } 
+    
+    if(write_log_to_file == TRUE) {
+      logr::log_print("Year(s) for exposure assessment set by 'time_start' and 'time_end'.",
+                      console = print_log_to_console)
+    } else if(print_log_to_console == TRUE) {
+      message("Year(s) for exposure assessment set by 'time_start' and 'time_end'.")
+    }
+  }
+  
+  # Check time information when time_option = "either_single_or_variable_year" 
+  else if(time_option == "either_single_or_variable_year") {
+     
     if(("time_start" %in% colnames(receptor) == FALSE) | 
        ("time_end" %in% colnames(receptor) == FALSE)) {
       stop("Point receptor data frame required columns missing: 'time_start' and/or 'time_end'.")

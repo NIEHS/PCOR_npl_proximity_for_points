@@ -35,11 +35,12 @@ get_npl_facility_proximity_for_points_V2 <-
   function(receptor_filepath = receptor_filepath,
            source_npl_facilities_filepath = source_npl_facilities_filepath,
            us_borders_filepath = us_borders_filepath,
-           p_NPL_STATUS = p_NPL_STATUS,
+           p_NPL_Status = p_NPL_Status,
            npl_year = npl_year,
            buffer_distance_km = 10,
            start_year = start_year,
-           end_year = end_year
+           end_year = end_year,
+           time_option = time_option
            ) {
     #Static variables 
     receptor_crs = sf::st_crs("EPSG:4269")
@@ -103,7 +104,8 @@ get_npl_facility_proximity_for_points_V2 <-
                              check_near_us_border,
                              us_borders_filepath,
                              buffer_distance_km,
-                             npl_year
+                             npl_year,
+                             time_option
                              )
     print("**************************")
     print("Success read and check receptor points.")
@@ -143,7 +145,7 @@ get_npl_facility_proximity_for_points_V2 <-
     print("Transform and filter source points npl_proximity_points_transform_calculate.R")
     print("**************************")
     source_npl_sf <- transform_filter_npl_source_points(source_npl_facilities_filepath,
-                                   p_NPL_STATUS,
+                                   p_NPL_Status,
                                    print_log_to_console,
                                    projection_crs,
                                    receptor_sf)

@@ -31,11 +31,10 @@ npl_proximity_points_summary_metrics <-
            check_near_us_border,
            output_df_list
            ){
-    n_col <- ncol(source_npl_sf)
-    n_row <- nrow(source_npl_sf)
-    print ("********FFFFFFFFFF*****")
-    print(n_col)
-    print(n_row)
+    #n_col <- ncol(source_npl_sf)
+    #n_row <- nrow(source_npl_sf)
+    #print(n_col)
+    #print(n_row)
     if((("count_in_buffer" %in% proximity_metrics) |
         ("distance_in_buffer" %in% proximity_metrics)) == TRUE) {
       
