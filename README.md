@@ -103,3 +103,31 @@ NPL_Status : The npl site status used as a filter. Values : ["Proposed for NPL" 
 time_option : ["single_year_only"; "variable_year_only"; "either_single_or_variable_year"]
 
 > ***NOTE:*** Currently only "single_year_only" been implemented.
+
+### 3. Output
+
+The output is the result of the multiple steps' calculation.
+
+| Column Name                     | Note                                                                            |
+|---------------------------------|---------------------------------------|
+| NPL_nearest_distance            | The nearest NPL to this receptor point                                          |
+| NPL_nearest_EPA_SITEID          | EPA Site ID                                                                     |
+| NPL_nearest_SITE_NAME           |                                                                                 |
+| NPL_nearest_ADDRESS.            |                                                                                 |
+| NPL_nearest_CITY                | .                                                                               |
+| NPL_nearest_COUNTY.             | .                                                                               |
+| NPL_nearest_STATE.              | .                                                                               |
+| NPL_nearest_ZIP_CODE            |                                                                                 |
+| NPL_nearest_REGION.             |                                                                                 |
+| NPL_nearest_NPL_STATUS          | 1 .Proposed for NPL 2. Currently on the Final NPL 3. Deleted from the Final NPL |
+| NPL_nearest_NPL_STATUS_DATE     | The date give the status of the NPL                                             |
+| NPL_nearest_NOTES               |                                                                                 |
+| NPL_nearest_SITE_PROFILE_URL    |                                                                                 |
+| NPL_nearest_FEDERAL_STATUS      |                                                                                 |
+| NPL_nearest_LAST_UPDATED        | The last update date                                                            |
+| NPL_count_in_buffer.            | The total of the NPL in the buffer distance                                     |
+| NPL_mean_distance_in_buffer     | The mean of the distance in the buffer                                          |
+| NPL_log_mean_distance_in_buffer |                                                                                 |
+| NPL_p25_distance_in_buffer      | The 25% of the distance in the buffer                                           |
+| NPL_p50_distance_in_buffer      | The 50% of the distance in the buffer                                           |
+| NPL_p75_distance_in_buffer      | The 75% of the distance in the buffer                                           |
