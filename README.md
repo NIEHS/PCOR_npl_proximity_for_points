@@ -22,8 +22,6 @@ The script calculates proximity-based (i.e., distance-based) exposure metrics fo
 
 ![](images/npl_data3.jpg){width="491"}
 
-The NPL data include "Deleted NPL Site" in Green, "Proposed NPL Site" in Red and "NPL Site" in Yellow.
-
 The data distribution:
 
 ![](images/npl_data.jpg){width="353"}
