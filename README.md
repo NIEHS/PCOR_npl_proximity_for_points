@@ -56,7 +56,7 @@ Bounding Coordinates:
 
 -   South Bounding Coordinate: -14.360100
 
-### 2. Receptor Data set
+### Receptor Data set
 
 ### Data format : CSV
 

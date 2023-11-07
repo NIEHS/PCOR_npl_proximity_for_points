@@ -43,10 +43,9 @@ npl_proximity_metrics_v2 <-
     time_option = 'single_year_only' #'either_single_or_variable_year'#'variable_year_only' 
     )
 
-# Write exposures to CSV
+`# Write exposures to CSV
 readr::write_csv(npl_proximity_metrics_v2, 
                  file ="./output/output_npl_proximity_metrics_V2.csv")
-
 
 ```
 

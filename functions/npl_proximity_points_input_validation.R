@@ -7,7 +7,7 @@
 # Check if receptor file exist
 # Check us_borders_sf is 30 rows and 2 columns
 # Check if point receptors are within buffer of border
-# Invoke check_point_receptor_near_border form file in the same name
+# Invoke check_point_receptor_near_border function form check_point_receptor_near_border.R 
 #  time_option = "single_year_only" for now
 #
 #########################################
