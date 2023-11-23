@@ -31,7 +31,7 @@ trainsform_receptor_sf <-
   function (receptor_filepath,
             write_log_to_file,
             print_log_to_console,
-            npl_year,
+            assessment_year,
             start_year = NULL,
             end_year = NULL,
             receptor_crs,
@@ -43,13 +43,13 @@ trainsform_receptor_sf <-
     ##########################################################
     #
     #  npl_check_point_receptor_format.R
-    #  Function validate input file receptor start/end year and npl_year and log the information
+    #  Function validate input file receptor start/end year and assessment_year and log the information
     #  Detail see file npl_check_point_receptor_format.R
     ##########################################################
     npl_check_point_receptor_format(receptor = receptor_df, 
-                                year = year(npl_year),
-                                start_year = NULL,
-                                end_year = NULL,
+                                year = year(assessment_year),
+                                #start_year = NULL,
+                                #end_year = NULL,
                                 time_option = "single_year_only",
                                 print_log_to_console = print_log_to_console, 
                                 write_log_to_file = write_log_to_file)

@@ -13,14 +13,14 @@
 ################################################################################
 # Function: check_point_receptor_near_border
 ################################################################################
-check_point_receptor_near_border <- function(receptor_sf = NULL, 
-                                             border_sf = NULL,
-                                             buffer_distance_km = 10,
-                                             projection_crs = NULL,
+check_point_receptor_near_border <- function(receptor_sf , 
+                                             border_sf ,
+                                             buffer_distance_km ,
+                                             projection_crs ,
                                              print_log_to_console = TRUE,
                                              write_log_to_file = TRUE) {
   # Open log -------------------------------------------------------------------
-  
+  print("***********************************************************************************")
   if(write_log_to_file == TRUE) {
     if(logr::log_status() != "open") {
       logr::log_open(show_notes = FALSE)

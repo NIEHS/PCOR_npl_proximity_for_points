@@ -15,10 +15,10 @@ npl_proximity_points_input_validation <-
   function( receptor_filepath = NULL,
             source_npl_facilities_filepath = NULL,
             us_borders_filepath = NULL,
-            npl_year = NULL,
-            buffer_distance_km = 10,
-            start_year = NULL,
-            end_year = NULL,
+            buffer_distance_km,
+            assessment_year = NULL,
+            #start_year = NULL,
+            #end_year = NULL,
             check_near_us_border = NULL
     
     ){
@@ -49,14 +49,15 @@ npl_proximity_points_input_validation <-
         stop("'us_borders_filepath' must be a valid file path for a rds file.")
       }
     }
-    if(is.null(npl_year)) {
-      stop("Required argument 'npl_year' is missing.")
-    } else if (is.na(as.Date(npl_year, format = "%Y-%m-%d"))){
-      print(npl_year)
-      stop("Required argument 'npl_year' must be %Y-%m-%d  format.")
-    } else if((year(npl_year) < start_year) || (year(npl_year) > end_year)) {
-      stop("Required argument 'npl_year'", (year(npl_year)), " must be within range start_year : ", start_year, " to end_year: ", end_year)
-    }
+    if(is.null(assessment_year)) {
+      stop("Required argument 'assessment_year' is missing.")
+    } else if (is.na(as.Date(assessment_year, format = "%Y-%m-%d"))){
+      print(assessment_year)
+      stop("Required argument 'assessment_year' must be %Y-%m-%d  format.")
+    } 
+    #else if((year(assessment_year) < start_year) || (year(assessment_year) > end_year)) {
+      #stop("Required argument 'assessment_year'", (year(assessment_year)), " must be within range start_year : ", start_year, " to end_year: ", end_year)
+    #}
     
     if(class(buffer_distance_km) != "numeric") {
       stop("Optional argument 'buffer_distance_km' must have numeric format.")
@@ -99,17 +100,12 @@ check_pointer_receipters <-
             check_near_us_border,
             us_borders_filepath,
             buffer_distance_km,
-            npl_year,
+            assessment_year,
             time_option){
     
-    #print("receptor_filepath:",receptor_filepath)
-    #print(receptor_filepath)
-    
     receptor_df <- readr::read_csv(receptor_filepath, show_col_types = FALSE)
-    print("8888888888888888888888")
-    print(time_option)
     check_point_receptor_format(receptor = receptor_df,
-                                year = year(npl_year),
+                                year = year(assessment_year),
                                 time_option = time_option,
                                 print_log_to_console = print_log_to_console,
                                 write_log_to_file = write_log_to_file)

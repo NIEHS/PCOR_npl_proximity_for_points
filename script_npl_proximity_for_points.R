@@ -187,13 +187,15 @@ get_npl_facility_proximity_for_points <-
     }
     
     # Transform and filter source points -----------------------------------------
-    
+     
     #source_aircraft_sf <- readr::read_rds(source_aircraft_facilities_filepath) 
     source_aircraft_sf <- read_excel(source_aircraft_facilities_filepath, sheet = "EPA_NPL_Sites_asof_27Feb2014")
     
     logr::put(stringr::str_c("nrow(source_aircraft_sf):", nrow(source_aircraft_sf), sep = " "), 
               console = print_log_to_console)
     logr::put(stringr::str_c("ncol=" , ncol(source_aircraft_sf), sep= ":"),
+              console = print_log_to_console)
+    logr::put(stringr::str_c("column names:" , colnames(source_aircraft_sf), sep= ":"),
               console = print_log_to_console)
     
     # if ((nrow(source_aircraft_sf) != 1747) & (ncol(source_aircraft_sf != 16)) ){

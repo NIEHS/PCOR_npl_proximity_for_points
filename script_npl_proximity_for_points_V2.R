@@ -35,11 +35,11 @@ get_npl_facility_proximity_for_points_V2 <-
   function(receptor_filepath = receptor_filepath,
            source_npl_facilities_filepath = source_npl_facilities_filepath,
            us_borders_filepath = us_borders_filepath,
+           buffer_distance_km,
            p_NPL_Status = p_NPL_Status,
-           npl_year = npl_year,
-           buffer_distance_km = 10,
-           start_year = start_year,
-           end_year = end_year,
+           assessment_year = assessment_year,
+           #start_year = start_year,
+           #end_year = end_year,
            time_option = time_option
            ) {
     #Static variables 
@@ -59,10 +59,10 @@ get_npl_facility_proximity_for_points_V2 <-
     npl_proximity_points_input_validation(receptor_filepath = receptor_filepath,
                                           source_npl_facilities_filepath = source_npl_facilities_filepath,
                                           us_borders_filepath = us_borders_filepath,
-                                          npl_year = npl_year,
-                                          buffer_distance_km = 10,
-                                          start_year = start_year,
-                                          end_year = end_year,
+                                          buffer_distance_km,
+                                          assessment_year = assessment_year,
+                                          #start_year = start_year,
+                                          #end_year = end_year,
                                           check_near_us_border = check_near_us_border)
     print("**************************")
     print("Success validate all input variables.")
@@ -84,7 +84,7 @@ get_npl_facility_proximity_for_points_V2 <-
                                  projection_crs = projection_crs,
                                  check_near_us_border = check_near_us_border,
                                  add_all_to_output = add_all_to_output,
-                                 npl_year = npl_year)
+                                 assessment_year = assessment_year)
     
     print("**************************")
     print("Success loging")
@@ -104,7 +104,7 @@ get_npl_facility_proximity_for_points_V2 <-
                              check_near_us_border,
                              us_borders_filepath,
                              buffer_distance_km,
-                             npl_year,
+                             assessment_year,
                              time_option
                              )
     print("**************************")
@@ -118,9 +118,9 @@ get_npl_facility_proximity_for_points_V2 <-
     receptor_sf <- trainsform_receptor_sf ( receptor_filepath,
                                      write_log_to_file,
                                      print_log_to_console,
-                                     npl_year,
-                                     start_year = start_year,
-                                     end_year = end_year,
+                                     assessment_year,
+                                     #start_year = start_year,
+                                     #end_year = end_year,
                                      receptor_crs,
                                      check_near_us_border)
     
@@ -131,7 +131,7 @@ get_npl_facility_proximity_for_points_V2 <-
     print("**************************")
     print("Check if point receptors are within buffer of border. npl_proximity_points_transform_calculate.R")
     print("**************************")
-    output_df_list <- check_us_border (check_near_us_border,
+    output_df_list <- check_us_border (check_near_us_border = TRUE,
                      us_borders_filepath,
                      buffer_distance_km,
                      write_log_to_file,

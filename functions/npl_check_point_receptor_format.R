@@ -16,8 +16,8 @@
 
 npl_check_point_receptor_format <- function(receptor = NULL, 
                                         year = NULL,
-                                        start_year = NULL,
-                                        end_year = NULL,
+                                        #start_year = NULL,
+                                        #end_year = NULL,
                                         time_option = NULL,
                                         print_log_to_console = TRUE,
                                         write_log_to_file = TRUE) {

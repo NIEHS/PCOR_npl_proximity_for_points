@@ -16,7 +16,7 @@ npl_proximity_points_logging <-
            projection_crs,
            check_near_us_border,
            add_all_to_output,
-           npl_year){
+           assessment_year){
     if(write_log_to_file == TRUE) {
       
       logr::log_open(show_notes = FALSE)
@@ -29,7 +29,7 @@ npl_proximity_points_logging <-
                 console = print_log_to_console)
       logr::put(stringr::str_c("us_borders_filepath:", us_borders_filepath, sep = " "), 
                 console = print_log_to_console)
-      logr::put(stringr::str_c("npl_year:", npl_year, sep = " "), 
+      logr::put(stringr::str_c("assessment_year:", assessment_year, sep = " "), 
                 console = print_log_to_console)
       logr::put(stringr::str_c("buffer_distance_km:", buffer_distance_km, "km", sep = " "), 
                 console = print_log_to_console)
