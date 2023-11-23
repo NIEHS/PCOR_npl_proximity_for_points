@@ -49,7 +49,7 @@ npl_proximity_metrics_v2 <-
 
 # Write exposures to CSV
 readr::write_csv(npl_proximity_metrics_v2, 
-                 file ="./output/output_npl_proximity_metrics_V2-2.csv")
+                 file ="./output/output_npl_proximity_metrics_V2.csv")
 
 ```
 
