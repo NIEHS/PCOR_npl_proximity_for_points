@@ -1,5 +1,5 @@
 ################################################################################
-# Function: get_npl_facility_proximity_for_points
+# Function: get_xyz_facility_proximity_for_points
 ################################################################################
 
 get_proximity_for_points_V3 <- 
