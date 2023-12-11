@@ -164,7 +164,6 @@ get_aircraft_facility_proximity_for_points <-
     
     receptor_sf <- sf::st_as_sf(receptor_df, coords = c('longitude','latitude'), 
                                 crs = receptor_crs)
-    
     # Check if point receptors are within buffer of border -----------------------
     
     if(check_near_us_border == TRUE) {
@@ -269,9 +268,7 @@ get_aircraft_facility_proximity_for_points <-
       } else {
         output_df_list <- append(output_df_list, list(output_receptor_summary_distance_metrics_df))
       }
-      
     }
-    
     # Return data frame with exposures by receptor id-----------------------------
     
     if(add_all_to_output == TRUE) {

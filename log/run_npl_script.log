@@ -7,7 +7,7 @@ R Version: 4.3.0 (2023-04-21)
 Machine: ALMBP02246215 x86_64 
 Operating System: Darwin 22.6.0 Darwin Kernel Version 22.6.0: Wed Oct 4 21:25:26 PDT 2023; root:xnu-8796.141.3.701.17~4/RELEASE_X86_64 
 Base Packages: stats graphics grDevices utils datasets methods base Other Packages: readxl_1.4.2 sf_1.0-13 logr_1.3.4 lubridate_1.9.2 forcats_1.0.0 stringr_1.5.0 dplyr_1.1.2 purrr_1.0.1 readr_2.1.4 tidyr_1.3.0 tibble_3.2.1 ggplot2_3.4.2 tidyverse_2.0.0 
-Log Start Time: 2023-11-22 20:50:44.463126 
+Log Start Time: 2023-12-06 18:09:05.924603 
 ========================================================================= 
 
 ========================================================================= 
@@ -47,14 +47,6 @@ Year for exposure assessment set to 2017.
 Point receptor data frame has 12 columns and 1000 rows. 
 
 ========================================================================= 
-Check whether point receptors are within buffer distance of border. 
-========================================================================= 
-
-Status update: Buffering borders... 
-
-Warning: 22 receptor points are within 10 km of border. 
-
-========================================================================= 
 Check format of receptor points data frame. 
 ========================================================================= 
 
@@ -66,26 +58,45 @@ Point receptor data frame has 12 columns and 1000 rows.
 Check whether point receptors are within buffer distance of border. 
 ========================================================================= 
 
-Error in st_transform.sfc(st_geometry(x), crs, ...) : cannot transform sfc object with missing crs 
-Traceback: 
- [1] "8: stop(\"cannot transform sfc object with missing crs\")"                                                                                  
- [2] "7: st_transform.sfc(st_geometry(x), crs, ...)"                                                                                              
- [3] "6: st_transform(st_geometry(x), crs, ...)"                                                                                                  
- [4] "5: st_transform.sf(receptor_sf, crs = projection_crs)"                                                                                      
- [5] "4: sf::st_transform(receptor_sf, crs = projection_crs) at check_point_receptor_near_border.R#76"                                            
- [6] "3: check_point_receptor_near_border(receptor_sf, border_sf = us_borders_sf, "                                                               
- [7] "       buffer_distance_km = buffer_distance_km, projection_crs = projection_crs, "                                                          
- [8] "       print_log_to_console = print_log_to_console, write_log_to_file = write_log_to_file) at npl_proximity_points_transform_calculate.R#89"
- [9] "2: check_us_border(check_near_us_border = TRUE, us_borders_filepath, "                                                                      
-[10] "       buffer_distance_km, write_log_to_file, print_log_to_console, "                                                                       
-[11] "       projection_crs, receptor_sf = receptor_sf) at script_npl_proximity_for_points_V2.R#134"                                              
-[12] "1: get_npl_facility_proximity_for_points_V2(receptor_filepath = \"./input/input_receptor.csv\", "                                           
-[13] "       source_npl_facilities_filepath = \"./input/epa-national-priorities-list-ciesin-mod-v2-2014.xls\", "                                  
-[14] "       us_borders_filepath = \"./input/input_us_borders.rds\", buffer_distance_km = 10, "                                                   
-[15] "       p_NPL_Status = \"Deleted from the Final NPL\", assessment_year = \"2017-10-01\", "                                                   
-[16] "       time_option = \"single_year_only\")"                                                                                                 
+Status update: Buffering borders... 
+
+Warning: 22 receptor points are within 10 km of border. 
+
+nrow(source_npl_sf): 1747 
+
+ncol=:16 
+
+NPL_dataset filter by NPL_STATUS :Deleted from the Final NPL 
 
 ========================================================================= 
-Log End Time: 2023-11-22 20:50:49.222136 
-Log Elapsed Time: 0 00:00:04 
+Calculate nearest distance to point source from point receptor. 
+========================================================================= 
+
+Status update: Calculating distances... 
+
+Calculated distances to nearest point sources. 
+
+========================================================================= 
+Summarize point sources within buffer distance of point receptors. 
+========================================================================= 
+
+Status update: Identifying point sources within buffer distance of point receptors... 
+
+Identified point sources within buffer distance of point receptors. 
+
+Status update: Counting point sources within buffer distance of point receptors... 
+
+Counted point sources within buffer distance of point receptors. 
+
+Status update: Calculating summary distances to point sources within buffer distance of point receptors... 
+
+Calculated summary distances to point sources within buffer distance of point receptors. 
+
+========================================================================= 
+Completed NPL facility proximity metric calculations. 
+========================================================================= 
+
+========================================================================= 
+Log End Time: 2023-12-06 18:09:13.675321 
+Log Elapsed Time: 0 00:00:07 
 ========================================================================= 

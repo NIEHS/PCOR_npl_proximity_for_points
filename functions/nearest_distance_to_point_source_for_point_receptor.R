@@ -17,6 +17,8 @@
 ################################################################################
 nearest_distance_to_point_source_from_point_receptor <- 
   function(receptor_sf = NULL, 
+           receptor_filepath,
+           receptor_crs,
            source_sf = NULL,
            projection_crs = NULL,
            add_nearest_source = TRUE,
@@ -33,6 +35,15 @@ nearest_distance_to_point_source_from_point_receptor <-
               console = print_log_to_console)
   }
   
+    receptor_df <- readr::read_csv(receptor_filepath, show_col_types = FALSE)
+    # check_point_receptor_format(receptor = receptor_df,
+    #                             year = year(assessment_year),
+    #                             time_option = time_option,
+    #                             print_log_to_console = print_log_to_console,
+    #                             write_log_to_file = write_log_to_file)
+    # 
+    receptor_sf <- sf::st_as_sf(receptor_df, coords = c('longitude','latitude'), 
+                                crs = receptor_crs)
   # Check arguments ------------------------------------------------------------
   if(is.null(receptor_sf)) {
     stop("Required argument 'receptor_sf' is missing.")
@@ -72,13 +83,22 @@ nearest_distance_to_point_source_from_point_receptor <-
   }
   
   # Transform projections ------------------------------------------------------
-  
+  print("****Transform projections for receptor points and borders***")
+    if(sf::st_crs(source_sf) != projection_crs) {
+      # Convert to sf object with POINT geometry
+      source_sf <- st_as_sf(source_sf, coords = c("LONGITUDE","LATITUDE"), crs = 4326)
+      print("Transform source_sf success.")
+    }
+    
   # Transform projections for receptor points and borders 
   if(sf::st_crs(receptor_sf) != projection_crs) {
+    print("Transform receptor begining.")
     receptor_sf <- sf::st_transform(receptor_sf, crs = projection_crs)
+    print("Transform receptor done.")
   }
   if(sf::st_crs(source_sf) != projection_crs) {
     source_sf <- sf::st_transform(source_sf, crs = projection_crs)
+    print("Transform source done.")
   }
   if(sf::st_crs(receptor_sf) != sf::st_crs(source_sf)) {
     stop("Unable to transform point receptor coordinate reference system to match point source.")

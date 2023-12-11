@@ -74,7 +74,9 @@ check_us_border <-
            write_log_to_file,
            print_log_to_console,
            projection_crs,
-           receptor_sf){
+           #receptor_sf,
+           receptor_filepath,
+           receptor_crs){
     
     if(check_near_us_border == TRUE) {
       
@@ -86,9 +88,21 @@ check_us_border <-
         stop("'Required argument 'us_borders_filepath' must lead to a simple features object with 30 rows and 2 columns.")
       }
       print("Invocate receptor_border_check_df ()")
+      
+      receptor_df <- readr::read_csv(receptor_filepath, show_col_types = FALSE)
+      # check_point_receptor_format(receptor = receptor_df,
+      #                             year = year(assessment_year),
+      #                             time_option = time_option,
+      #                             print_log_to_console = print_log_to_console,
+      #                             write_log_to_file = write_log_to_file)
+      # 
+      receptor_sf <- sf::st_as_sf(receptor_df, coords = c('longitude','latitude'), 
+                                  crs = receptor_crs)
+       
       receptor_border_check_df <- 
-        check_point_receptor_near_border(receptor_sf,
-                                         border_sf = us_borders_sf,
+        check_point_receptor_near_border(
+                                         receptor_sf,
+                                         us_borders_sf,
                                          buffer_distance_km = buffer_distance_km,
                                          projection_crs = projection_crs,
                                          print_log_to_console = print_log_to_console, 
@@ -98,7 +112,6 @@ check_us_border <-
         dplyr::select(id, within_border_buffer)
      
       output_df_list <- list(output_receptor_border_check_df) 
-      print(length(output_df_list))
       
       return (output_df_list)
     }
@@ -164,6 +177,8 @@ transform_filter_npl_source_points <-
 calculate_distance_npl_receptor <-
   function(proximity_metrics,
            receptor_sf,
+           receptor_filepath,
+           receptor_crs,
            source_npl_sf,
            projection_crs,
            check_near_us_border,
@@ -173,6 +188,8 @@ calculate_distance_npl_receptor <-
         receptor_nearest_distance_df <- 
           nearest_distance_to_point_source_from_point_receptor(
                 receptor_sf = receptor_sf,
+                receptor_filepath,
+                receptor_crs,
                 source_sf = source_npl_sf,
                 projection_crs = projection_crs,
                 add_nearest_source = TRUE,

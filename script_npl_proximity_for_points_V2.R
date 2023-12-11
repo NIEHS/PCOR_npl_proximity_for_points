@@ -50,12 +50,12 @@ get_npl_facility_proximity_for_points_V2 <-
     add_all_to_output = TRUE
     print_log_to_console = TRUE
     write_log_to_file = TRUE
-    print(source_npl_facilities_filepath)
+     
     print("**************************")
     print("Validate all input variables")
     print("**************************")
     # Check argument format ------------------------------------------------------
-
+    
     npl_proximity_points_input_validation(receptor_filepath = receptor_filepath,
                                           source_npl_facilities_filepath = source_npl_facilities_filepath,
                                           us_borders_filepath = us_borders_filepath,
@@ -63,7 +63,8 @@ get_npl_facility_proximity_for_points_V2 <-
                                           assessment_year = assessment_year,
                                           #start_year = start_year,
                                           #end_year = end_year,
-                                          check_near_us_border = check_near_us_border)
+                                          check_near_us_border = check_near_us_border,
+                                          time_option)
     print("**************************")
     print("Success validate all input variables.")
     print("**************************")
@@ -137,7 +138,9 @@ get_npl_facility_proximity_for_points_V2 <-
                      write_log_to_file,
                      print_log_to_console,
                      projection_crs,
-                     receptor_sf = receptor_sf)
+                     #receptor_sf = receptor_sf,
+                     receptor_filepath,
+                     receptor_crs)
     print("**************************")
     print("Success check if point receptors are within buffer of border.")
     print("**************************")
@@ -158,6 +161,8 @@ get_npl_facility_proximity_for_points_V2 <-
    
     output_df_list <- calculate_distance_npl_receptor(proximity_metrics,
                                     receptor_sf,
+                                    receptor_filepath,
+                                    receptor_crs,
                                     source_npl_sf,
                                     projection_crs,
                                     check_near_us_border,
@@ -174,6 +179,8 @@ get_npl_facility_proximity_for_points_V2 <-
     output_df_list <- npl_proximity_points_summary_metrics(
                                          proximity_metrics,
                                          receptor_sf = receptor_sf,
+                                         receptor_filepath,
+                                         receptor_crs,
                                          source_npl_sf,
                                          summary_metrics = summary_metrics,
                                          buffer_distance_km = buffer_distance_km,

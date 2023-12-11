@@ -18,6 +18,7 @@ check_point_receptor_format <- function(receptor = NULL,
                                         write_log_to_file = TRUE) {
   
   # Open log -------------------------------------------------------------------
+  
   if(write_log_to_file == TRUE) {
     if(logr::log_status() != "open") {
       logr::log_open(show_notes = FALSE)

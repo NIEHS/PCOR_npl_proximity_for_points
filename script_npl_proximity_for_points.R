@@ -146,7 +146,8 @@ get_npl_facility_proximity_for_points <-
     # Read and check receptor points file ----------------------------------------
     
     receptor_df <- readr::read_csv(receptor_filepath, show_col_types = FALSE) 
-    
+    print('oooooooooooooooooooooooooo')
+    print(colnames(receptor_df))
     check_point_receptor_format(receptor = receptor_df, 
                                 year = year(npl_year),
                                 start_year,
@@ -169,8 +170,7 @@ get_npl_facility_proximity_for_points <-
       if((nrow(us_borders_sf) != 30) | (ncol(us_borders_sf) != 2)) {
         stop("'Required argument 'us_borders_filepath' must lead to a simple features object with 30 rows and 2 columns.")
       }
-      
-      receptor_border_check_df <- 
+        receptor_border_check_df <- 
         check_point_receptor_near_border(receptor_sf = receptor_sf,
                                          border_sf = us_borders_sf,
                                          buffer_distance_km = buffer_distance_km,
@@ -180,9 +180,7 @@ get_npl_facility_proximity_for_points <-
       
       output_receptor_border_check_df <- receptor_border_check_df %>% 
         dplyr::select(id, within_border_buffer)
-      print("****************output_receptor_border_check_df**V1************dim")
-      print(dim(output_receptor_border_check_df))
-      print("****************output_receptor_border_check_df**V1************dim")
+      
       output_df_list <- list(output_receptor_border_check_df) 
     }
     
@@ -220,9 +218,6 @@ get_npl_facility_proximity_for_points <-
     if(sf::st_crs(receptor_sf) != projection_crs) {
       receptor_sf <- sf::st_transform(receptor_sf, crs = projection_crs)
     }
-    print("**************dim source_aircraft_sf ff************")
-    print(dim(source_aircraft_sf))
-    print(colnames(source_aircraft_sf))
     # Calculate distance to nearest aircraft facility from point receptor ------------------
     
     if(("distance_to_nearest" %in% proximity_metrics) == TRUE) {
@@ -286,7 +281,9 @@ get_npl_facility_proximity_for_points <-
     if(add_all_to_output == TRUE) {
       output_df_list <- append(list(receptor_df), output_df_list, after = 1)
     }
-    
+    print('receptor_df yyyyyyyyyyyyyyyyyyy11')
+    print(colnames((receptor_df)))
+    print('yyyyyyyyyyyyyyyyyyyyyy')
     output_df <-  purrr::reduce(output_df_list, dplyr::left_join, by = "id") %>%
       dplyr::arrange(id)
     
@@ -590,8 +587,11 @@ check_point_receptor_near_border <- function(receptor_sf = NULL,
     }
   }
   
+  
   # Return receptor points as data frame
   output_df <- sf::st_drop_geometry(receptor_sf)
+  print('77777777777end of check_point_receptor_near_border drop geometry 777777777')
+  print(colnames(output_df))
   output_df
 }
 

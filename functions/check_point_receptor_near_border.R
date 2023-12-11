@@ -13,14 +13,15 @@
 ################################################################################
 # Function: check_point_receptor_near_border
 ################################################################################
-check_point_receptor_near_border <- function(receptor_sf , 
-                                             border_sf ,
+
+
+check_point_receptor_near_border <- function(receptor_sf = receptor_sf, 
+                                             border_sf = us_borders_sf,
                                              buffer_distance_km ,
                                              projection_crs ,
                                              print_log_to_console = TRUE,
                                              write_log_to_file = TRUE) {
   # Open log -------------------------------------------------------------------
-  print("***********************************************************************************")
   if(write_log_to_file == TRUE) {
     if(logr::log_status() != "open") {
       logr::log_open(show_notes = FALSE)
@@ -71,11 +72,11 @@ check_point_receptor_near_border <- function(receptor_sf ,
   }
   
   # Transform projections ------------------------------------------------------
-  
   # Transform projections for receptor points and borders 
-  receptor_sf <- sf::st_transform(receptor_sf, crs = projection_crs)
+
   border_sf <- sf::st_transform(border_sf, crs = projection_crs)
-  
+  receptor_sf <- sf::st_transform(receptor_sf, crs = projection_crs)
+
   if(sf::st_crs(receptor_sf) != sf::st_crs(border_sf)) {
     stop("Unable to transform point receptor coordinate reference system to match border.")
   }
@@ -135,6 +136,8 @@ check_point_receptor_near_border <- function(receptor_sf ,
   # st_drop_geometry function from the sf package to remove the geometry 
   # column(s) from a simple features object (sf object).
   # Return receptor points as data frame
+  
   output_df <- sf::st_drop_geometry(receptor_sf)
+  print(colnames(output_df))
   output_df
 }

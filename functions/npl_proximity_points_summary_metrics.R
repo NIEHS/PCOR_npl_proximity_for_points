@@ -21,6 +21,8 @@
 npl_proximity_points_summary_metrics <-
   function(proximity_metrics,
            receptor_sf = receptor_sf,
+           receptor_filepath,
+           receptor_crs,
            source_npl_sf,
            summary_metrics = summary_metrics,
            buffer_distance_km = buffer_distance_km,
@@ -47,7 +49,9 @@ npl_proximity_points_summary_metrics <-
       #            
       #############
       receptor_summary_distance_metrics_df <- 
-        summary_of_point_sources_in_buffer_of_point_receptor(receptor_sf = receptor_sf,
+        npl_summary_of_point_sources_in_buffer_of_point_receptor(receptor_sf = receptor_sf,
+                                                             receptor_filepath,
+                                                             receptor_crs,
                                                              source_npl_sf,
                                                              summary_metrics = summary_metrics,
                                                              buffer_distance_km = buffer_distance_km,
