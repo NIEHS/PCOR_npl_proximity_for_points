@@ -27,6 +27,8 @@ source("./functions/xyz_proximity_points_calculate.R")
     # time_option : ['single_year_only', 'either_single_or_variable_year','variable_year_only' ]
     # Currently only 'single_year_only' available
     # add_nearest_source : If need frame with point receptors with nearest source details and distance
+
+# Run with the sample parameters
 npl_proximity_metrics_v3 <- 
   #get_xyz_facility_proximity_for_points_V3(
     get_proximity_for_points_V3(
@@ -35,7 +37,7 @@ npl_proximity_metrics_v3 <-
     us_borders_filepath ="./input/input_us_borders.rds",
     buffer_distance_km = 10,
     assessment_year = '2017-10-01',
-    time_option = 'single_year_only', #'either_single_or_variable_year'#'variable_year_only' 
+    time_option = 'single_year_only',  
     check_near_us_border = TRUE,
     add_all_to_output = TRUE,
     print_log_to_console = TRUE,
@@ -49,53 +51,6 @@ readr::write_csv(npl_proximity_metrics_v3,
 
 ```
 
-
-## Run version v1.0
-
-### Invoke an r script with input parameters
-
-### All steps in a big file
-
-### script_npl_proximity_for_points.R
-
-```{r}
-# Download national priorities list data for new tool (EPA Superfund sites in 2014 via CIESIN (URL): 
-# https://sedac.ciesin.columbia.edu/data/set/superfund-epa-national-priorities-list-ciesin-mod-v2
-
-# Load packages
-library(tidyverse)
-library(logr)
-library(sf)
-# Load the readxl package
-library(readxl)
-
-# Load functions
-source("./script_npl_proximity_for_points.R")
-
-# Get exposures
-npl_proximity_metrics <- 
-  get_npl_facility_proximity_for_points(
-    receptor_filepath = "./input/input_receptor.csv", 
-    #npl_points_list <- read_excel("epa-national-priorities-list-ciesin-mod-v2-2014.xls", sheet = "EPA_NPL_Sites_asof_27Feb2014")
-    source_aircraft_facilities_filepath ="./input/epa-national-priorities-list-ciesin-mod-v2-2014.xls",
-    us_borders_filepath ="./input/input_us_borders.rds",
-    # NPL_STATUS for filter the input data if NULL then no data filter
-    #1. "Proposed for NPL" 
-    #2. "Currently on the Final NPL" 
-    #3. "Deleted from the Final NPL"
-    NPL_STATUS = 'Deleted from the Final NPL', 
-    npl_year = '2017-10-01',
-    start_year = 1985,
-    end_year = 2020
-    )
-print(ncol(npl_proximity_metrics))
-print(nrow(npl_proximity_metrics))
-print(colnames(npl_proximity_metrics))
-# Write exposures to CSV
-readr::write_csv(npl_proximity_metrics, 
-                 file ="./output/output_npl_proximity_metrics_v1.csv")
-
-```
 
 #. code block converting geometry data to longitude and latitude
 
