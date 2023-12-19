@@ -4,3 +4,6 @@
 .Ruserdata
 .PCOR_npl_proximity_for_points.Rproj
 .log/*
+*.log
+*.msg
+.log/*.log

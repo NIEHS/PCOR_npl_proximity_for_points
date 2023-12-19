@@ -7,16 +7,16 @@ R Version: 4.3.0 (2023-04-21)
 Machine: ALMBP02246215 x86_64 
 Operating System: Darwin 22.6.0 Darwin Kernel Version 22.6.0: Wed Oct 4 21:25:26 PDT 2023; root:xnu-8796.141.3.701.17~4/RELEASE_X86_64 
 Base Packages: stats graphics grDevices utils datasets methods base Other Packages: readxl_1.4.2 sf_1.0-13 logr_1.3.4 lubridate_1.9.2 forcats_1.0.0 stringr_1.5.0 dplyr_1.1.2 purrr_1.0.1 readr_2.1.4 tidyr_1.3.0 tibble_3.2.1 ggplot2_3.4.2 tidyverse_2.0.0 
-Log Start Time: 2023-12-06 18:09:05.924603 
+Log Start Time: 2023-12-19 16:16:57.651172 
 ========================================================================= 
 
 ========================================================================= 
 Set arguments for function 'get_npl_proximity_for_points()'. 
 ========================================================================= 
 
-receptor_filepath: ./input/input_receptor.csv 
+receptor_xyz_filepath: ./input/input_receptor.csv 
 
-source_npl_facilities_filepath: ./input/epa-national-priorities-list-ciesin-mod-v2-2014.xls 
+source_xyz_facilities_filepath: ./input/EPA_NPL_Site_2014.csv 
 
 us_borders_filepath: ./input/input_us_borders.rds 
 
@@ -38,21 +38,23 @@ print_log_to_console: TRUE
 
 write_log_to_file: TRUE 
 
-========================================================================= 
-Check format of receptor points data frame. 
-========================================================================= 
+show_notes: FALSE 
+
+time_option set to single_year_only. 
 
 Year for exposure assessment set to 2017. 
 
-Point receptor data frame has 12 columns and 1000 rows. 
-
 ========================================================================= 
-Check format of receptor points data frame. 
+All input arguments are valid. 
 ========================================================================= 
 
-Year for exposure assessment set to 2017. 
+========================================================================= 
+Check whether point receptors are within buffer distance of border. 
+========================================================================= 
 
 Point receptor data frame has 12 columns and 1000 rows. 
+
+Point source_xyz_df data frame has 16 columns and 1747 rows. 
 
 ========================================================================= 
 Check whether point receptors are within buffer distance of border. 
@@ -62,19 +64,13 @@ Status update: Buffering borders...
 
 Warning: 22 receptor points are within 10 km of border. 
 
-nrow(source_npl_sf): 1747 
+Status update: Calculating distances... 
 
-ncol=:16 
-
-NPL_dataset filter by NPL_STATUS :Deleted from the Final NPL 
+Calculated distances to nearest point sources. 
 
 ========================================================================= 
 Calculate nearest distance to point source from point receptor. 
 ========================================================================= 
-
-Status update: Calculating distances... 
-
-Calculated distances to nearest point sources. 
 
 ========================================================================= 
 Summarize point sources within buffer distance of point receptors. 
@@ -93,10 +89,10 @@ Status update: Calculating summary distances to point sources within buffer dist
 Calculated summary distances to point sources within buffer distance of point receptors. 
 
 ========================================================================= 
-Completed NPL facility proximity metric calculations. 
+Completed XYZ facility proximity metric calculations. 
 ========================================================================= 
 
 ========================================================================= 
-Log End Time: 2023-12-06 18:09:13.675321 
-Log Elapsed Time: 0 00:00:07 
+Log End Time: 2023-12-19 16:17:05.963819 
+Log Elapsed Time: 0 00:00:08 
 ========================================================================= 
