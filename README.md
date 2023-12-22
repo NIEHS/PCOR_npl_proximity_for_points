@@ -1,3 +1,11 @@
+# How to run the script
+
+1. Download all the files, including input sample files from git.
+2. Open run_xyz_proximity_point_script.Rmd.
+3. Optional: Modify the output file's name in the Rmd file on the bottom of the run block code. 
+4. Run the code block.
+5. Check your output folder to see your output file.
+   
 # NPL proximity metrics
 
 A tool for calculate proximity-based exposure metrics for NPL (National Priorities List)
