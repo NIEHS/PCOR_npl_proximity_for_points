@@ -3,31 +3,31 @@
 # Logging all script information
 #
 ###########################################
-xyz_proximity_points_logging <- 
+xyz_logging <- 
   function(
-           receptor_xyz_filepath,
-           source_xyz_facilities_filepath,
-           us_borders_filepath,
-           buffer_distance_km,
-           assessment_year,
-           
-           proximity_metrics,
-           receptor_crs,
-           projection_crs,
-           check_near_us_border,
-           add_all_to_output,
-          
-           write_log_to_file, 
-           show_notes,
-           print_log_to_console){
+    receptor_xyz_filepath,
+    source_xyz_facilities_filepath,
+    us_borders_filepath,
+    buffer_distance_km,
+    assessment_year,
+    
+    proximity_metrics,
+    receptor_crs,
+    projection_crs,
+    check_near_us_border,
+    add_all_to_output,
+    
+    write_log_to_file, 
+    show_notes,
+    print_log_to_console){
     
     if(write_log_to_file == TRUE) {
       
-       if(logr::log_status() != "open") {
-          logr::log_open(show_notes = FALSE)
-        }
-        logr::sep("Write log to file.",
-                  console = print_log_to_console)
+      if(logr::log_status() != "open") {
+        logr::log_open(show_notes = FALSE)
+      }
+      logr::sep("Write log to file.",
+                console = print_log_to_console)
       
       logr::sep("Set arguments for function 'get_npl_proximity_for_points()'.", 
                 console = print_log_to_console)

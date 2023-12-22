@@ -1,0 +1,278 @@
+
+# V4
+```{R}
+#Parameters:
+
+    # input_receptor.csv: receptor geo data set required columns : unique id , latitude,	longitude 
+    # source_xyz_facilities.csv: your facilities site required columns: ID Address,City,State,County	
+    # sample data can be downloaded from national priorities list data for new tool (EPA Superfund sites in 2014 via CIESIN (URL): 
+    # https://sedac.ciesin.columbia.edu/data/set/superfund-epa-national-priorities-list-ciesin-mod-v2
+    # input_us_borders.rds can be download from github URL  
+    # buffer_distance_km: The distance from the interested point (NPL facility) rang (1000km  0.001km)
+    # assessment_year: The year which exposure assessment set to
+    # start_year, end_year: The range of the time frame we consider 
+    # time_option : ['single_year_only', 'either_single_or_variable_year','variable_year_only' ]
+    # Currently only 'single_year_only' available
+    # add_nearest_source : If need frame with point receptors with nearest source details and distance
+
+# Run with the sample parameters
+# Load packages
+library(tidyverse)
+library(logr)
+library(sf)
+library(readxl)
+
+# Load functions
+source("./script_prox_point_v4.R")
+source("./functions/logging.R")
+source("./functions/validation_v5.R")
+source("./functions/file_formate_validation.R")
+source("./functions/xyz_proximity_points_calculate.R")
+
+# Run with the sample parameters
+xyz_proximity_metrics_v4 <- 
+  xyz_facility_proximity_for_points(
+    receptor_xyz_filepath = "./input/input_receptor.csv", 
+    source_xyz_facilities_filepath ="./input/EPA_NPL_Site_2014.csv",
+    us_borders_filepath ="./input/input_us_borders.rds",
+    buffer_distance_km = 10,
+    assessment_year = '2018-10-01',
+    time_option = 'single_year_only', # 'variable_year_only',#'
+    check_near_us_border = TRUE,
+    add_all_to_output = TRUE,
+    print_log_to_console = TRUE,
+    write_log_to_file = TRUE
+  
+    )
+
+# Write exposures to CSV
+readr::write_csv(xyz_proximity_metrics_v4, 
+                file ="./output/output_xyz_proximity_metrics_V40.csv")
+```
+
+## Run version 3.0
+```{R}
+
+# Load packages
+library(tidyverse)
+library(logr)
+library(sf)
+library(readxl)
+
+# Load functions
+source("./script_proximity_for_points_V3.R")
+source("./functions/xyz_proximity_points_setup_logging.R")
+source("./functions/xyz_proximity_points_input_validation.R")
+source("./functions/xyz_proximity_points_calculate.R")
+
+#Parameters:
+
+    # input_receptor.csv: receptor geo data set required columns : unique id , latitude,	longitude 
+    # source_xyz_facilities.csv: your facilities site required columns: ID Address,City,State,County	
+    # sample data can be downloaded from national priorities list data for new tool (EPA Superfund sites in 2014 via CIESIN (URL): 
+    # https://sedac.ciesin.columbia.edu/data/set/superfund-epa-national-priorities-list-ciesin-mod-v2
+    # input_us_borders.rds can be download from github URL  
+    # buffer_distance_km: The distance from the interested point (NPL facility) rang (1000km  0.001km)
+    # assessment_year: The year which exposure assessment set to
+    # start_year, end_year: The range of the time frame we consider 
+    # time_option : ['single_year_only', 'either_single_or_variable_year','variable_year_only' ]
+    # Currently only 'single_year_only' available
+    # add_nearest_source : If need frame with point receptors with nearest source details and distance
+
+# Run with the sample parameters
+xyz_proximity_metrics_v3 <- 
+  #get_xyz_facility_proximity_for_points_V3(
+  xyz_proximity_points_input_validation(
+    receptor_xyz_filepath = "./input/input_receptor.csv", 
+    source_xyz_facilities_filepath ="./input/EPA_NPL_Site_2014.csv",
+    us_borders_filepath ="./input/input_us_borders.rds",
+    buffer_distance_km = 10,
+    assessment_year = '2019-10-01',
+    time_option = 'single_year_only', # 'variable_year_only',#'
+    check_near_us_border = 'TRUEq',
+    add_all_to_output = TRUE,
+    print_log_to_console = TRUE,
+    write_log_to_file = TRUE
+    )
+
+# Write exposures to CSV
+#readr::write_csv(xyz_proximity_metrics_v3, 
+ #                file ="./output/output_xyz_proximity_metrics_V5.csv")
+
+```
+# ## Run version V5
+
+```{R}
+# Load packages
+library(tidyverse)
+library(logr)
+library(sf)
+library(readxl)
+
+# Load functions
+source("./test.R")
+#source("./functions/log_x.R")
+source("./functions/xyz_proximity_points_input_validation.R")
+source("./functions/xyz_proximity_points_calculate.R")
+
+# Run with the sample parameters
+xyz_proximity_metrics_v5 <- 
+  test(
+    receptor_xyz_filepath = "./input/input_receptor.csv", 
+    source_xyz_facilities_filepath ="./input/EPA_NPL_Site_2014.csv",
+    us_borders_filepath ="./input/input_us_borders.rds",
+    buffer_distance_km = 10,
+    assessment_year = '2018-10-01',
+    time_option = 'single_year_only', # 'variable_year_only',#'
+    check_near_us_border = TRUE,
+    add_all_to_output = TRUE,
+    print_log_to_console = TRUE,
+    write_log_to_file = TRUE
+  
+    )
+
+# Write exposures to CSV
+readr::write_csv(xyz_proximity_metrics_v5, 
+                file ="./output/output_xyz_proximity_metrics_V5.csv")
+
+```
+
+```{R}
+# Check point receptor data frame columns format -----------------------------
+receptor_xyz_filepath <- "./input/input_receptor.csv"  
+write_log_to_file <- TRUE
+print_log_to_console <- TRUE
+receptor <- readr::read_csv(receptor_xyz_filepath, show_col_types = FALSE) 
+  
+# Open log -------------------------------------------------------------------
+  if(write_log_to_file == TRUE) {
+    if(logr::log_status() != "open") {
+      logr::log_open(show_notes = FALSE)
+    }
+    logr::sep("Check format of receptor points data frame.",
+              console = print_log_to_console)
+  }
+
+# Check input arguments format ----------------------------------------------
+  
+  if(is.null(receptor)) {
+    stop("Required argument 'receptor' is missing.")
+  }
+  if(!is.data.frame(receptor)) {
+    stop("Required argument 'receptor' must be a data frame.")
+  }
+  
+  if(("id" %in% colnames(receptor) == FALSE) | 
+     ("latitude" %in% colnames(receptor) == FALSE) |
+     ("longitude" %in% colnames(receptor) == FALSE)) {
+    stop("Point receptor data frame must have columns: id, latitude, longitude.") 
+  } else if((length(receptor$id) == length(unique(receptor$id))) == FALSE) {
+    stop("Point receptor data frame must have unique values for column 'id'.")
+  } else if((!is.numeric(receptor$latitude)) | (!is.numeric(receptor$longitude))) {
+    stop("Point receptor data frame must have columns 'latitude' and 'longitude' in numeric format.")
+  } else if((min(receptor$latitude) < -90) | (max(receptor$latitude) > 90) |
+            (min(receptor$longitude) < -180) | (max(receptor$longitude) > 180)) {
+    stop("Point receptor data frame must have column 'latitude' in decimal degrees format (range: -90 to 90) and column 'longitude' in decimal degrees format (range: -180 to 180).")
+  }
+
+# Check receptor time information --------------------------------------------
+  
+  # Check time information when time_option = "single_year_only" 
+  if(time_option == "single_year_only") {
+    if(is.null(year)) {
+      stop("Required argument for year for exposure assessment is missing.")
+    }
+    else if(!is.numeric(year)) {
+      stop("Required argument for year for exposure assessment must be in numeric format.")
+    } 
+    else if((year < 1800) | (year > 2100)) {
+      stop("Required argument for year for exposure assessment must have 4-digit 'YYYY' format.")
+    }
+    if(write_log_to_file == TRUE) {
+      logr::log_print(stringr::str_c('Year for exposure assessment set to ', 
+                                     year, '.', sep = ""),
+                      console = print_log_to_console)
+    } else if(print_log_to_console == TRUE) {
+      message(stringr::str_c('Year for exposure assessment set to ', year, '.', sep = ""))
+    }
+  }
+  
+  # Check time information when time_option = "variable_year_only" 
+  else if(time_option == "variable_year_only") {
+    if(("time_start" %in% colnames(receptor) == FALSE) | 
+       ("time_end" %in% colnames(receptor) == FALSE)) {
+      stop("Point receptor data frame required columns missing: 'time_start' and/or 'time_end'.")
+    } else if((!is.numeric(receptor$time_start)) | (!is.numeric(receptor$time_end))) {
+      stop("Point receptor data frame required columns 'time_start' and 'time_end' must be in numeric format.")
+    } else if((min(receptor$time_start) < 1800) | (max(receptor$time_start) > 2100) |
+              (min(receptor$time_end) < 1800) | (max(receptor$time_end) > 2100)) {
+      stop("Point receptor data frame required columns 'time_start' and 'time_end' must have 4-digit 'YYYY' format.")
+    } else {
+      test_time_range <- receptor %>%
+        dplyr::mutate(end_before_start = dplyr::if_else(time_start > time_end, 1, 0))
+      if(sum(test_time_range$end_before_start) > 0) {
+        stop("Year in 'time_start' must be less than or equal to year in 'time_end' for all point receptors.")
+      }
+    } 
+    if(write_log_to_file == TRUE) {
+      logr::log_print("Year(s) for exposure assessment set by 'time_start' and 'time_end'.",
+                      console = print_log_to_console)
+    } else if(print_log_to_console == TRUE) {
+      message("Year(s) for exposure assessment set by 'time_start' and 'time_end'.")
+    }
+  }
+
+```
+
+#. code block converting geometry data to longitude and latitude
+
+```{r}
+library(tidyverse)
+# Load necessary libraries
+library(dplyr)
+#library(tidyr)
+
+# Sample data
+data_frame <- data.frame(geometry1 = c("c(-588606.452401901, -880680.305667414)", "c(-123456.789, -987654.321)"))
+
+# Using dplyr and tidyr to separate the columns
+data_frame <- data_frame %>%
+  mutate(geometry1= gsub("[^0-9.,-]", "", geometry1)) %>% # Clean the geometry column
+  separate(geometry1, into = c("longitude", "latitude"), sep = ",", convert = TRUE)
+print(data_frame)
+
+```
+
+```{R}
+validate_assessment_year <- function(assessment_year) {
+    # Convert to string in case it's not
+    assessment_year_str <- as.character(assessment_year)
+
+    # Check if it's a four-digit year
+    if (grepl("^[0-9]{4}$", assessment_year_str)) {
+      
+        return(TRUE)
+    }
+
+    # Check if it's a valid date in the format "%Y-%m-%d"
+    tryCatch({
+      date <- as.Date(assessment_year_str, format = "%Y-%m-%d")
+      if (!is.na(date) && format(date, "%Y-%m-%d") == assessment_year_str) {
+              year <- as.integer(format(as.Date(assessment_year, format = date_format), "%Y"))
+              print(year)
+              return(TRUE)
+        } else {
+            return(FALSE)
+        }
+        
+    }, error = function(e) {
+        return(FALSE)
+    })
+}
+
+# Testing the function
+test_year <- "1900-88-288"
+is_valid <- validate_assessment_year(test_year)
+print(is_valid)
+
+```

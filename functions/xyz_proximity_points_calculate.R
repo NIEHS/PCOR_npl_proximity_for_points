@@ -20,7 +20,7 @@ xyz_proximity_points_calculate <- function
     # Open log -------------------------------------------------------------------
     #
     ##############################################################################
-    
+  
     
     if(write_log_to_file == TRUE) {
       if(logr::log_status() != "open") {
@@ -29,6 +29,7 @@ xyz_proximity_points_calculate <- function
       logr::sep("Check whether point receptors are within buffer distance of border.",
                 console = print_log_to_console)
     }
+    logr::sep("Calculate results...",  console = print_log_to_console)
     ##############################################################################
     #
     # Read in files and check file format

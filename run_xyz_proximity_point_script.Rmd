@@ -1,19 +1,7 @@
 
-## Run version 3.0
+# Run xyz proximity for point Version 4
+
 ```{R}
-
-# Load packages
-library(tidyverse)
-library(logr)
-library(sf)
-library(readxl)
-
-# Load functions
-source("./script_proximity_for_points_V3.R")
-source("./functions/xyz_proximity_points_setup_logging.R")
-source("./functions/xyz_proximity_points_input_validation.R")
-source("./functions/xyz_proximity_points_calculate.R")
-
 #Parameters:
 
     # input_receptor.csv: receptor geo data set required columns : unique id , latitude,	longitude 
@@ -29,15 +17,28 @@ source("./functions/xyz_proximity_points_calculate.R")
     # add_nearest_source : If need frame with point receptors with nearest source details and distance
 
 # Run with the sample parameters
-npl_proximity_metrics_v3 <- 
-  #get_xyz_facility_proximity_for_points_V3(
-    get_proximity_for_points_V3(
+# Load packages
+library(tidyverse)
+library(logr)
+library(sf)
+library(readxl)
+
+# Load functions
+source("./script_prox_point_v4.R")
+source("./functions/logging.R")
+source("./functions/validation_v4.R")
+source("./functions/file_formate_validation.R")
+source("./functions/xyz_proximity_points_calculate.R")
+
+# Run with the sample parameters
+xyz_proximity_metrics_v4 <- 
+  xyz_facility_proximity_for_points(
     receptor_xyz_filepath = "./input/input_receptor.csv", 
     source_xyz_facilities_filepath ="./input/EPA_NPL_Site_2014.csv",
     us_borders_filepath ="./input/input_us_borders.rds",
     buffer_distance_km = 10,
-    assessment_year = '2017-10-01',
-    time_option = 'single_year_only',  
+    assessment_year = '2018-10-01',
+    time_option = 'single_year_only', # 'variable_year_only',#'
     check_near_us_border = TRUE,
     add_all_to_output = TRUE,
     print_log_to_console = TRUE,
@@ -46,27 +47,6 @@ npl_proximity_metrics_v3 <-
     )
 
 # Write exposures to CSV
-readr::write_csv(npl_proximity_metrics_v3, 
-                 file ="./output/output_xyz_proximity_metrics_V3.csv")
-
-```
-
-
-#. code block converting geometry data to longitude and latitude
-
-```{r}
-library(tidyverse)
-# Load necessary libraries
-library(dplyr)
-#library(tidyr)
-
-# Sample data
-data_frame <- data.frame(geometry1 = c("c(-588606.452401901, -880680.305667414)", "c(-123456.789, -987654.321)"))
-
-# Using dplyr and tidyr to separate the columns
-data_frame <- data_frame %>%
-  mutate(geometry1= gsub("[^0-9.,-]", "", geometry1)) %>% # Clean the geometry column
-  separate(geometry1, into = c("longitude", "latitude"), sep = ",", convert = TRUE)
-print(data_frame)
-
+readr::write_csv(xyz_proximity_metrics_v4, 
+                file ="./output/output_xyz_proximity_metrics_V42.csv")
 ```
