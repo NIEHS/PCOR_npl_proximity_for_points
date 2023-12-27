@@ -1,7 +1,16 @@
 ################################################################################
-# Function: get_npl_facility_proximity_for_points
+#
+#Function Definition:
+#  Function Name: xyz_facility_proximity_for_points
+#
+#Parameters:
+#  File paths for receptors, source facilities, and US borders.
+#  buffer_distance_km: Distance parameter for proximity calculation.
+#  assessment_year: Year for the assessment.
+#  time_option: Options for time frame consideration.
+#  Flags for various options like checking proximity to US border, adding all data to output, 
+#. logging to console, and writing logs to a file.
 ################################################################################
-
 xyz_facility_proximity_for_points <- 
   function(receptor_xyz_filepath,
            source_xyz_facilities_filepath = source_xyz_facilities_filepath,
@@ -14,9 +23,10 @@ xyz_facility_proximity_for_points <-
            print_log_to_console = TRUE,
            write_log_to_file = TRUE
   ) {
-    
-    #Static variables 
-    #receptor_crs = sf::st_crs("EPSG:4269")
+    # Setting Static Variables:
+      # Defines coordinate reference systems (CRS) for receptors and projection.
+      # Specifies a list of proximity metrics (distance_to_nearest, count_in_buffer, distance_in_buffer).
+  
     local_receptor_crs = sf::st_crs("EPSG:4269")
     projection_crs = sf::st_crs("ESRI:102008")
     proximity_metrics = c("distance_to_nearest", "count_in_buffer", "distance_in_buffer")
@@ -25,7 +35,11 @@ xyz_facility_proximity_for_points <-
     print("**************************")
     print("Set loging and arguments:")
     print("**************************")
-    # Open log and print arguments------------------
+    # Logging Setup:
+    
+      #Initializes logging with parameters like file paths, CRS, and other settings.
+      #Prints messages indicating the start of logging and successful initialization.
+    
     xyz_logging(
       receptor_xyz_filepath = receptor_xyz_filepath,
       source_xyz_facilities_filepath = source_xyz_facilities_filepath,
@@ -51,11 +65,12 @@ xyz_facility_proximity_for_points <-
     print("**************************")
     print("Validate all input variables")
     print("**************************")
-    # Check argument format ------------------------------------------------------
     
-    # if(class(local_receptor_crs) != "crs") {
-    #   stop("******Optional argument 'receptor_crs' must be of class 'crs'.")
-    # }
+    # Input Validation:
+      
+      #Validates all input variables and files, ensuring they meet the expected formats and criteria. 
+      #This includes checking the receptor file path, source facility file path, buffer distance, 
+      #assessment year, and other parameters.
     
     assm_year <- validation_v4(receptor_xyz_filepath = receptor_xyz_filepath,
                                           source_xyz_facilities_filepath = source_xyz_facilities_filepath,
@@ -75,6 +90,7 @@ xyz_facility_proximity_for_points <-
     
     print("Success validate all input variables.")
     print("**************************")
+    
     file_validate (
       receptor_xyz_filepath,
       source_xyz_facilities_filepath,
@@ -86,6 +102,12 @@ xyz_facility_proximity_for_points <-
     
     print("Success validate all input files.")
     print("++++++++++++++++++++++++++++++++++")
+    # Proximity Calculation:
+    
+      # Calls another function xyz_proximity_points_calculate with all relevant parameters.
+      # This function presumably performs the actual proximity calculations between 
+      # receptors and facilities based on the provided criteria and settings.
+    
     output_df_list <- xyz_proximity_points_calculate(
       receptor_xyz_filepath,
       source_xyz_facilities_filepath,
@@ -102,6 +124,10 @@ xyz_facility_proximity_for_points <-
       write_log_to_file,
       print_log_to_console,
       show_notes)
+    # Output Handling (Commented Out):
+    
+    # The script includes commented-out lines for writing the output to a CSV file 
+    # and returning the output data frame list.
     #readr::write_csv(output_df_list,
      #              file ="./output/output_xyz_proximity_metrics_V44.csv")
     #output_df_list
