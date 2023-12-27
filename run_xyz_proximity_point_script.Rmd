@@ -1,14 +1,16 @@
-
 # Run xyz proximity for point Version 4
 
-```{R}
-#Parameters:
+### The script is structured to perform a specific type of the proximity of certain points (receptors) to facilities, within the context of certain parameters like buffer distance and assessment year. It is designed to be run with sample parameters but can be adjusted for different datasets or analysis requirements.
 
-    # input_receptor.csv: receptor geo data set required columns : unique id , latitude,	longitude 
-    # source_xyz_facilities.csv: your facilities site required columns: ID Address,City,State,County	
-    # sample data can be downloaded from national priorities list data for new tool (EPA Superfund sites in 2014 via CIESIN (URL): 
+```{R}
+#Parameters and Data Inputs:
+
+  #The script uses several input files:
+
+    #input_receptor.csv: Contains geo data for receptors with columns for a unique ID, latitude, and longitude.
+    # source_xyz_facilities.csv: Contains data for facilities, including ID, address, city, state, and county.     # Example data can be downloaded from the EPA Superfund sites (2014) via CIESIN.
     # https://sedac.ciesin.columbia.edu/data/set/superfund-epa-national-priorities-list-ciesin-mod-v2
-    # input_us_borders.rds can be download from github URL  
+    # input_us_borders.rds: A file that can be downloaded from a specified GitHub URL.
     # buffer_distance_km: The distance from the interested point (NPL facility) rang (1000km  0.001km)
     # assessment_year: The year which exposure assessment set to
     # start_year, end_year: The range of the time frame we consider 
@@ -16,8 +18,23 @@
     # Currently only 'single_year_only' available
     # add_nearest_source : If need frame with point receptors with nearest source details and distance
 
+# Package Loading:
+
+    #Loads necessary R packages: tidyverse for data manipulation, logr for logging, sf for spatial data handling, and readxl for reading Excel files.
+
+# Function Sourcing:
+
+  #Sources additional R scripts containing functions for logging, validation, file format validation, and proximity points calculation.
+
+# Proximity Analysis Execution:
+
+  #Calls the xyz_facility_proximity_for_points function from the sourced script, passing in file paths, parameters like buffer distance, assessment year, and options for proximity metrics calculation.
+
+# Output Generation:
+
+    # Writes the results of the proximity analysis to a CSV file named output_xyz_proximity_metrics_V42.csv in the ./output/ directory.
+
 # Run with the sample parameters
-# Load packages
 library(tidyverse)
 library(logr)
 library(sf)
