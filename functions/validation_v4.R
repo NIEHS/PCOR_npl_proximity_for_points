@@ -84,7 +84,6 @@ validation_v4 <-
         # Input is a four-digit number, likely a year
         year <- as.integer(assessment_year)
         print ('yyyy formate')
-        #}else if(is.na(as.Date(assessment_year,format = "%Y-%m-%d"))){
       }else if (is.na(as.Date(assessment_year, format = "%Y-%m-%d"))){
         stop("Required argument 'assessment_year' must be a valid Date in %Y-%m-%d or 'yyyy' format.")
       }else {

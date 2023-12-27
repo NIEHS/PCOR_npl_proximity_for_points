@@ -65,5 +65,5 @@ xyz_proximity_metrics_v4 <-
 
 # Write exposures to CSV
 readr::write_csv(xyz_proximity_metrics_v4, 
-                file ="./output/output_xyz_proximity_metrics_V42.csv")
+                file ="./output/output_xyz_proximity_metrics_V43.csv")
 ```
